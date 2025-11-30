@@ -167,7 +167,7 @@ public class LabManager {
         try {
             lab.run();
         } catch (Exception e) {
-            System.out.println("❌ Error running lab: " + e.getMessage());
+            System.out.println("Error running lab: " + e.getMessage());
         }
 
         waitForReturn();

@@ -11,11 +11,11 @@ repositories {
     mavenCentral()
 }
 
-//TODO: lab3, lab4, lab5
+//TODO: lab4, lab5
 sourceSets {
     main {
         java {
-            srcDirs("src/main/java", "Labs/Lab1/src/main/java", "Labs/Lab2/src/main/java", "Labs/Lab3/src/main/java")
+            srcDirs("src/main/java", "Labs/Lab1/src/main/java", "Labs/Lab2/src/main/java", "Labs/Lab3/src/main/java", "Labs/Lab4/src/main/java")
         }
         resources {
             srcDirs("src/main/resources")

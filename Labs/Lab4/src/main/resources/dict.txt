@@ -1,0 +1,11 @@
+hello | privet
+world | mir
+cat | kot
+dog | sobaka
+look | smotret
+look forward to | zhdat' s neterpeniem
+good morning | dobroe utro
+how are you | kak dela
+computer | kompyuter
+program | programma
+java | zhava

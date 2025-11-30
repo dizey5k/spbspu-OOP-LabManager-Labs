@@ -1,8 +1,8 @@
 package Lab3;
 
 import Lab3.Animal.*;
-import LabManager.RunnableLab;
 import LabManager.LabInfo;
+import LabManager.RunnableLab;
 
 import java.util.*;
 
@@ -40,6 +40,9 @@ public class Lab3 implements RunnableLab {
                 case 4:
                     showAnimalHierarchy();
                     break;
+                case 5:
+                    demonstrateSortedSetAndComparators();
+                    break;
                 case 0:
                     running = false;
                     break;
@@ -60,6 +63,7 @@ public class Lab3 implements RunnableLab {
         System.out.println("2. wildcards flexibility");
         System.out.println("3. mixed collection");
         System.out.println("4. show animal hie");
+        System.out.println("5. SortedSet and Comparators");
         System.out.println("0. back to main menu");
         System.out.print("Choose option: ");
     }
@@ -87,6 +91,31 @@ public class Lab3 implements RunnableLab {
             } else if (animal instanceof Lynx) {
                 collection3.add((Lynx) animal);
             }
+        }
+    }
+
+    private static class NameComparator implements Comparator<Animal> {
+        @Override
+        public int compare(Animal a1, Animal a2) {
+            return a1.getName().compareTo(a2.getName());
+        }
+    }
+
+    private static class ReverseNameComparator implements Comparator<Animal> {
+        @Override
+        public int compare(Animal a1, Animal a2) {
+            return a2.getName().compareTo(a1.getName()); // Обратный порядок
+        }
+    }
+
+    private static class ClassNameComparator implements Comparator<Animal> {
+        @Override
+        public int compare(Animal a1, Animal a2) {
+            int classCompare = a1.getClass().getSimpleName().compareTo(a2.getClass().getSimpleName());
+            if (classCompare != 0) {
+                return classCompare;
+            }
+            return a1.getName().compareTo(a2.getName());
         }
     }
 
@@ -173,6 +202,61 @@ public class Lab3 implements RunnableLab {
         System.out.println("HH: " + hedgehogs.size() + " animals: " + getAnimalNames(hedgehogs));
         System.out.println("Manul: " + manulsCollection.size() + " animals: " + getAnimalNames(manulsCollection));
         System.out.println("Lynx: " + lynxes.size() + " animals: " + getAnimalNames(lynxes));
+
+        waitForEnter();
+    }
+
+    private void demonstrateSortedSetAndComparators() {
+        System.out.println("\n=== SortedSet and Comparators Demo ===");
+
+        Hedgehog hedgehog1 = new Hedgehog("Charlie");
+        Manul manul1 = new Manul("Alice");
+        Lynx lynx1 = new Lynx("Bob");
+        Hedgehog hedgehog2 = new Hedgehog("David");
+        Manul manul2 = new Manul("Eve");
+
+        System.out.println("Original animals (unsorted):");
+        List<Animal> animals = Arrays.asList(hedgehog1, manul1, lynx1, hedgehog2, manul2);
+        System.out.println(getAnimalNames(animals));
+
+        System.out.println("\n1. TreeSet with natural ordering (by name):");
+        SortedSet<Animal> sortedByName = new TreeSet<>(new NameComparator());
+        sortedByName.addAll(animals);
+        System.out.println("Sorted by name: " + getAnimalNames(sortedByName));
+
+        System.out.println("\n2. TreeSet with reverse name comparator:");
+        SortedSet<Animal> sortedByReverseName = new TreeSet<>(new ReverseNameComparator());
+        sortedByReverseName.addAll(animals);
+        System.out.println("Sorted by reverse name: " + getAnimalNames(sortedByReverseName));
+
+        System.out.println("\n3. TreeSet with class+name comparator:");
+        SortedSet<Animal> sortedByClassAndName = new TreeSet<>(new ClassNameComparator());
+        sortedByClassAndName.addAll(animals);
+        System.out.println("Sorted by class and name: " + getAnimalNames(sortedByClassAndName));
+
+        System.out.println("\n4. Segregate with SortedSet collections:");
+
+        SortedSet<Animal> sourceSet = new TreeSet<>(new NameComparator());
+        sourceSet.addAll(Arrays.asList(hedgehog1, manul1, lynx1, hedgehog2, manul2));
+
+        SortedSet<Hedgehog> hedgehogSet = new TreeSet<>(new NameComparator());
+        SortedSet<Manul> manulSet = new TreeSet<>(new ReverseNameComparator()); // Другой компаратор для демонстрации
+        SortedSet<Lynx> lynxSet = new TreeSet<>(new NameComparator());
+
+        segregate(sourceSet, hedgehogSet, manulSet, lynxSet);
+
+        System.out.println("Source SortedSet: " + getAnimalNames(sourceSet));
+        System.out.println("Hedgehogs SortedSet: " + getAnimalNames(hedgehogSet));
+        System.out.println("Manuls SortedSet (reverse order): " + getAnimalNames(manulSet));
+        System.out.println("Lynx SortedSet: " + getAnimalNames(lynxSet));
+
+        System.out.println("\n5. SortedSet methods demonstration:");
+        System.out.println("First element: " + sourceSet.first().getName());
+        System.out.println("Last element: " + sourceSet.last().getName());
+
+        Animal middleElement = (Animal) sourceSet.toArray()[sourceSet.size() / 2];
+        SortedSet<Animal> headSet = sourceSet.headSet(middleElement);
+        System.out.println("HeadSet (before " + middleElement.getName() + "): " + getAnimalNames(headSet));
 
         waitForEnter();
     }
