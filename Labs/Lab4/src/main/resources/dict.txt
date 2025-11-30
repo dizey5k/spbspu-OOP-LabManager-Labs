@@ -1,0 +1,11 @@
+hello | привет
+world | мир
+cat | кошка
+dog | собака
+look | смотреть
+look forward to | ожидать с нетерпением
+good | хорошо
+good morning | доброе утро
+how are you | как дела
+computer | компьютер
+program | программа
