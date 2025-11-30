@@ -1,4 +1,5 @@
 Hello world! How are you today?
 I look forward to meeting you.
 This is a test with unknown words like elephant.
-Good morning, my dear friend.
+Good morning my dear friend.
+We program in Java and look at the computer

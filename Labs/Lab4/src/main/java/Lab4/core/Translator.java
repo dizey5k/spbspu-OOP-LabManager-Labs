@@ -8,9 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Translator {
@@ -68,10 +66,17 @@ public class Translator {
             }
 
             sortedKeys = dictionary.keySet().stream()
-                    .sorted((k1, k2) -> Integer.compare(k2.length(), k1.length()))
+                    .sorted((k1, k2) -> {
+                        int wordCount1 = k1.split("\\s+").length;
+                        int wordCount2 = k2.split("\\s+").length;
+                        if (wordCount2 != wordCount1) {
+                            return Integer.compare(wordCount2, wordCount1);
+                        }
+                        return Integer.compare(k2.length(), k1.length());
+                    })
                     .collect(Collectors.toList());
 
-            System.out.println("✓ Dictionary loaded: " + dictionary.size() + " entries");
+            System.out.println("Dictionary loaded: " + dictionary.size() + " entries");
 
         } catch (IOException e) {
             throw new FileReadException("Cannot read dictionary file: " + e.getMessage(), e);
@@ -98,41 +103,55 @@ public class Translator {
         }
 
         StringBuilder result = new StringBuilder();
-        int position = 0;
-        int textLength = text.length();
+        String[] words = text.split("\\s+");
+        int i = 0;
 
-        while (position < textLength) {
-            if (Character.isWhitespace(text.charAt(position))) {
-                result.append(text.charAt(position));
-                position++;
-                continue;
+        while (i < words.length) {
+            if (i > 0) {
+                result.append(" ");
             }
 
             String bestMatch = null;
             String bestTranslation = null;
+            int bestWordCount = 0;
 
             for (String dictionaryPhrase : sortedKeys) {
-                int endPosition = position + dictionaryPhrase.length();
-                if (endPosition <= textLength) {
-                    String candidate = text.substring(position, endPosition);
-                    if (candidate.equalsIgnoreCase(dictionaryPhrase)) {
+                int phraseWordCount = dictionaryPhrase.split("\\s+").length;
+
+                if (i + phraseWordCount > words.length) {
+                    continue;
+                }
+
+                String textPhrase = buildPhrase(words, i, phraseWordCount);
+
+                if (textPhrase.equalsIgnoreCase(dictionaryPhrase)) {
+                    if (bestMatch == null || phraseWordCount > bestWordCount) {
                         bestMatch = dictionaryPhrase;
                         bestTranslation = dictionary.get(dictionaryPhrase);
-                        break;
+                        bestWordCount = phraseWordCount;
                     }
                 }
             }
 
             if (bestMatch != null) {
                 result.append(bestTranslation);
-                position += bestMatch.length();
+                i += bestWordCount;
             } else {
-                result.append(text.charAt(position));
-                position++;
+                result.append(words[i]);
+                i++;
             }
         }
 
         return result.toString();
+    }
+
+    private String buildPhrase(String[] words, int startIndex, int wordCount) {
+        StringBuilder phrase = new StringBuilder();
+        for (int i = startIndex; i < startIndex + wordCount; i++) {
+            if (i > startIndex) phrase.append(" ");
+            phrase.append(words[i]);
+        }
+        return phrase.toString();
     }
 
     public int getDictionarySize() {

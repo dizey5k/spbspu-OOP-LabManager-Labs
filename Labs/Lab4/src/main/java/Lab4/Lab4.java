@@ -168,7 +168,7 @@ public class Lab4 implements RunnableLab {
         System.out.println("\n=== Dictionary Information ===");
 
         if (translator.isDictionaryLoaded()) {
-            System.out.println("✓ Dictionary is loaded");
+            System.out.println("Dictionary is loaded");
             System.out.println("Entries count: " + translator.getDictionarySize());
         } else {
             System.out.println("Dictionary is not loaded");
@@ -180,20 +180,15 @@ public class Lab4 implements RunnableLab {
 
     private void showTranslationRules() {
         System.out.println("\n=== Translation Rules ===");
-        System.out.println("1. Case insensitive - регистр букв игнорируется");
-        System.out.println("2. Unknown words - если слово не найдено в словаре, выводится без перевода");
-        System.out.println("3. Longest match - выбирается вариант с максимальной длиной левой части");
-        System.out.println("4. Dictionary format - слово или выражение | перевод");
+        System.out.println("1. Case insensitive - letter case is ignored");
+        System.out.println("2. Unknown words - if word not found, shown without translation");
+        System.out.println("3. Longest match - selects variant with maximum left part length");
+        System.out.println("4. Dictionary format - word/expression | translation");
 
         System.out.println("\nExample dictionary format:");
-        System.out.println("   look | смотреть");
-        System.out.println("   look forward to | ожидать с нетерпением");
-        System.out.println("   good morning | доброе утро");
-
-        System.out.println("\nTranslation example:");
-        System.out.println("   Input: 'I look forward to meeting you'");
-        System.out.println("   Output: 'I ожидать с нетерпением meeting you'");
-        System.out.println("   (выбрано 'look forward to' вместо 'look')");
+        System.out.println("   look | smotret'");
+        System.out.println("   look forward to | prismatrivat'");
+        System.out.println("   good morning | horoshego dnya");
 
         waitForEnter();
     }
@@ -202,12 +197,12 @@ public class Lab4 implements RunnableLab {
         System.out.println("\n=== Demonstration ===");
 
         Map<String, String> demoDict = new HashMap<>();
-        demoDict.put("hello", "привет");
-        demoDict.put("world", "мир");
-        demoDict.put("cat", "кошка");
-        demoDict.put("look", "смотреть");
-        demoDict.put("look forward to", "ожидать с нетерпением");
-        demoDict.put("good morning", "доброе утро");
+        demoDict.put("hello", "privet");
+        demoDict.put("world", "mir");
+        demoDict.put("cat", "kot");
+        demoDict.put("look", "smotret'");
+        demoDict.put("look forward to", "prismatrivat'");
+        demoDict.put("good morning", "horoshego dnya");
 
         System.out.println("Demo dictionary created with " + demoDict.size() + " entries");
 
@@ -218,19 +213,8 @@ public class Lab4 implements RunnableLab {
 
         System.out.println("\nSimulating translation...");
 
-        String translated = demoText;
-        translated = translated.replaceAll("(?i)hello", "привет");
-        translated = translated.replaceAll("(?i)world", "мир");
-        translated = translated.replaceAll("(?i)look forward to", "ожидать с нетерпением");
-        translated = translated.replaceAll("(?i)good morning", "доброе утро");
-
         System.out.println("\nTranslated text:");
-        System.out.println(translated);
-
-        System.out.println("\nNotice:");
-        System.out.println("- 'look forward to' was chosen over 'look' (longest match rule)");
-        System.out.println("- 'elephant' remains unchanged (not in dictionary)");
-        System.out.println("- Case is ignored during translation");
+        System.out.println(demoText);
 
         waitForEnter();
     }
