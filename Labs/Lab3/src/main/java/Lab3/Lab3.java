@@ -69,10 +69,12 @@ public class Lab3 implements RunnableLab {
     }
 
     private int getChoice() {
+        System.out.print("Choose option: ");
+        String input = scanner.nextLine().trim(); // scanner.hasNext
+
         try {
-            return scanner.nextInt();
-        } catch (Exception e) {
-            scanner.nextLine();
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
             return -1;
         }
     }

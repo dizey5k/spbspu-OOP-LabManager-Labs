@@ -78,13 +78,15 @@ public class Lab4 implements RunnableLab {
 
     private int getChoice() {
         System.out.print("Choose option: ");
-        String input = scanner.nextLine().trim();
 
-        try {
-            return Integer.parseInt(input);
-        } catch (NumberFormatException e) {
+        if (!scanner.hasNextInt()) {
+            scanner.nextLine();
             return -1;
         }
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        return choice;
     }
 
     private void loadDictionary() {
