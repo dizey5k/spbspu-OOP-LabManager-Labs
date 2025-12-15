@@ -159,10 +159,10 @@ public class LabManager {
         RunnableLab lab = labs.get(labNumber);
         LabInfo info = lab.getLabInfo();
 
-        System.out.println("\n" + "=".repeat(60));
+        System.out.println("\n" + "=".repeat(50));
         System.out.println("STARTING: " + info.name().toUpperCase());
         System.out.println("DESCRIPTION: " + info.description());
-        System.out.println("=".repeat(60));
+        System.out.println("=".repeat(50));
 
         try {
             lab.run();
