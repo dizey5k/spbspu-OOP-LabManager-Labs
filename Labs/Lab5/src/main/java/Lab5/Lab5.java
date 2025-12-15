@@ -13,7 +13,7 @@ public class Lab5 implements RunnableLab {
     public Lab5() {
         this.scanner = new Scanner(System.in);
         this.labInfo = new LabInfo(5, "Stream API Operations",
-                "Implementation of various operations using Stream API with explanations");
+                "Implementation of various operations using Stream API");
     }
 
     @Override
